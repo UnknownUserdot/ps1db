@@ -1,115 +1,104 @@
-# PS1 Game Collection Manager
+# PS1 Database Manager
 
-A web-based application for managing your PlayStation 1 (PS1) game collection. This application uses a SQLite database to store comprehensive game information about your games.
+⚠️ **Work in Progress**: This application is currently under development. While functional, it may have bugs and incomplete features. Use with caution.
 
-## Current Features
+## Overview
+PS1 Database Manager is a command-line tool for managing your PlayStation 1 game collection. It helps you organize your PS1 ROMs by matching them against a database of known games, handling different regions (USA/PAL/JPN), and managing multi-disc games.
 
-- **SQLite Database with Game Information**:
-  - Title
-  - Serial Number
-  - Developer
-  - Publisher
-  - Release Dates (JP/EU/NA)
-  - Region Information
-  - Launch Title Status
-  - Notes
+## Recent Updates
+- Improved filename matching for games with special characters (colons, underscores)
+- Better handling of multi-disc games
+- Enhanced region detection (USA/PAL/JPN)
+- Fixed issues with extra spaces in filenames
 
-- **Collection Management**:
-  - Track game ownership status (Owned/Hunting/None)
-  - Add notes to your collection entries
-  - Track when games were added to your collection
+## Installation
 
-- **Digital Backup Tracking**:
-  - Store information about your digital backups
-  - Support for multiple formats (.iso, .bin, .pbp, .chd)
-  - Track file checksums and verification dates
-  - Store emulator-specific configurations
-
-## Technical Stack
-
-- **Backend**: Python with FastAPI
-- **Database**: SQLite
-- **Frontend**: React (in development)
-
-## Getting Started
-
-### Prerequisites
-- Python 3.8+
-- pip
-
-### Installation
-
-1. Clone the repository
+1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd ps1-database
+git clone https://github.com/UnknownUserdot/PS1.db.git
+cd PS1.db
 ```
 
-2. Create and activate virtual environment
+2. Install the package:
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows use: venv\Scripts\activate
+pip install -e .
 ```
 
-3. Install dependencies
+This will install the `ps1db` command in your system.
+
+## Database Setup
+
+The application uses two separate databases:
+
+1. Game Database (`ps1_games.db`):
+   - Ships with the package
+   - Contains only game information (titles, release dates, regions)
+   - Read-only, same for all users
+   - No personal information
+
+2. User Collection Database (`user_collection.db`):
+   - Created in your personal app data directory:
+     - Windows: `%LOCALAPPDATA%/ps1db/user_collection.db`
+     - macOS/Linux: `~/.local/share/ps1db/user_collection.db`
+   - Stores your personal collection data
+   - Never shared or uploaded
+   - Completely private to your installation
+
+When you first run any command, the tool will:
+1. Use the included game database
+2. Create a personal collection database in your app data directory
+3. Keep your collection data separate and private
+
+## Usage
+
+### Basic Commands
+
+1. Scan your PS1 game directory:
 ```bash
-pip install -r requirements.txt
+ps1db scan "/path/to/your/ps1/games"
 ```
 
-### Database Setup
-
-To create the initial database structure:
-
+2. Search for games:
 ```bash
-python backend/create_db.py
+ps1db search "game name"
+```
+- Use quotes for names with spaces
+- Optional: Filter by region with `-r` flag (NA/EU/JP)
+- Optional: Show only games in your collection with `-l` flag
+
+3. View collection statistics:
+```bash
+ps1db stats
 ```
 
-This will create a new SQLite database (`ps1_games.db`) with the following structure:
+### Examples
 
-- `games` table: Stores basic game information
-- `game_status` table: Tracks your collection status for each game
-- `digital_backups` table: Manages information about your digital copies
-
-The database comes with a few sample entries to demonstrate the structure. You can add your own game information manually or implement data import functionality as needed.
-
-## Project Structure
-
-```
-ps1-database/
-├── README.md
-├── requirements.txt
-├── backend/
-│   ├── create_db.py
-│   └── app/
-│       ├── api/
-│       ├── models/
-│       └── services/
-└── frontend/  # Coming soon
+Search for a specific game:
+```bash
+ps1db search "Final Fantasy VII"
 ```
 
-## Database Schema
+Search for Japanese games only:
+```bash
+ps1db search -r JP "Final Fantasy"
+```
 
-### Games Table
-- Primary game information
-- Includes title, serial number, developer, publisher
-- Tracks release dates for different regions
-- Includes reference URLs and notes
+Show all games in your collection:
+```bash
+ps1db search -l
+```
 
-### Game Status Table
-- Tracks ownership status (OWNED/HUNTING/NONE)
-- Records when games were added to collection
-- Allows for personal notes
-
-### Digital Backups Table
-- Tracks digital copy information
-- Supports multiple file formats
-- Stores checksums and verification dates
-- Manages emulator configurations
+## Known Issues
+- Some multi-disc games may not match correctly
+- Japanese titles might need exact matching
+- Special game versions (like Gran Turismo 2 Arcade/Simulation) need manual verification
+- Some games with colons or special characters in titles may not match perfectly
 
 ## Contributing
-
-This is a personal learning project. While suggestions are welcome, I'm not accepting direct contributions at this time as I'm using this project to learn and improve my development skills working with Cursor's AI powered IDE.
+This is an open-source project in active development. Contributions, bug reports, and feature requests are welcome!
 
 ## License
+[Your chosen license]
 
-This project is for personal use and learning purposes. 
+## Disclaimer
+This tool is for personal use in managing legally obtained game backups. The developers do not condone or promote piracy. 
