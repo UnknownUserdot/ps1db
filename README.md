@@ -6,25 +6,43 @@
 PS1 Database Manager is a command-line tool for managing your PlayStation 1 game collection. It helps you organize your PS1 ROMs by matching them against a database of known games, handling different regions (USA/PAL/JPN), and managing multi-disc games.
 
 ## Recent Updates
-- Improved filename matching for games with special characters (colons, underscores)
+- Added region-specific game tracking (JP/EU/NA versions tracked separately)
+- Improved manual matching system for unmatched games
+- Added smart search tips when no matches are found
+- Enhanced region detection with separate paths for each regional version
+- Added visual indicators for owned games (✓/✗) by region
+- Improved filename matching for games with special characters
 - Better handling of multi-disc games
 - Enhanced region detection (USA/PAL/JPN)
 - Fixed issues with extra spaces in filenames
+- Added detailed table output for search results
+
+## Features
+- **Region-Specific Collection Tracking**
+  - Track JP/EU/NA versions separately
+  - Visual indicators (✓/✗) for owned versions
+  - Separate file paths for each regional version
+
+- **Smart Game Matching**
+  - Automatic region detection from filenames
+  - Manual matching for unmatched games
+  - Interactive search and selection process
+  - Region availability verification
+
+- **Helpful Search System**
+  - Smart search tips when no matches found
+  - Suggestions for better search terms
+  - Region-specific search filtering
+  - Support for partial name matching
 
 ## Installation
 
-1. Clone the repository:
-```bash
-git clone https://github.com/UnknownUserdot/PS1.db.git
-cd PS1.db
-```
+1. Clone or download the repository and navigate to its directory.
 
-2. Install the package:
+2. Install the required dependencies:
 ```bash
-pip install -e .
+pip install -r requirements.txt
 ```
-
-This will install the `ps1db` command in your system.
 
 ## Database Setup
 
@@ -55,12 +73,12 @@ When you first run any command, the tool will:
 
 1. Scan your PS1 game directory:
 ```bash
-ps1db scan "/path/to/your/ps1/games"
+python3 ps1db.py scan "/path/to/your/ps1/games"
 ```
 
 2. Search for games:
 ```bash
-ps1db search "game name"
+python3 ps1db.py search "game name"
 ```
 - Use quotes for names with spaces
 - Optional: Filter by region with `-r` flag (NA/EU/JP)
@@ -68,25 +86,46 @@ ps1db search "game name"
 
 3. View collection statistics:
 ```bash
-ps1db stats
+python3 ps1db.py stats
 ```
+
+### Search Results
+The search command displays results in a formatted table with the following information:
+- Title: Game title
+- Serial: Game serial number
+- Developer: Game developer
+- Publisher: Game publisher
+- Regions: Available regions with ownership status (JP ✓/✗ | EU ✓/✗ | NA ✓/✗)
 
 ### Examples
 
 Search for a specific game:
 ```bash
-ps1db search "Final Fantasy VII"
+python3 ps1db.py search "Final Fantasy VII"
 ```
 
 Search for Japanese games only:
 ```bash
-ps1db search -r JP "Final Fantasy"
+python3 ps1db.py search -r JP "Final Fantasy"
 ```
 
 Show all games in your collection:
 ```bash
-ps1db search -l
+python3 ps1db.py search -l
 ```
+
+View collection statistics:
+```bash
+python3 ps1db.py stats
+```
+
+## Database Statistics
+The database currently includes:
+- Total Games: 4099
+- Regional Breakdown:
+  * Japan: 3014 titles
+  * Europe: 1267 titles
+  * North America: 1372 titles
 
 ## Known Issues
 - Some multi-disc games may not match correctly
@@ -96,9 +135,6 @@ ps1db search -l
 
 ## Contributing
 This is an open-source project in active development. Contributions, bug reports, and feature requests are welcome!
-
-## License
-[Your chosen license]
 
 ## Disclaimer
 This tool is for personal use in managing legally obtained game backups. The developers do not condone or promote piracy. 

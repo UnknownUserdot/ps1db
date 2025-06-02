@@ -34,6 +34,7 @@ env/
 # Database - but keep initial database
 user_ps1_games.db
 *.sqlite3
+*.db.backup
 
 # Backup files
 *.bak
